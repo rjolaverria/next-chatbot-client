@@ -1,4 +1,6 @@
-export { default as Error } from './Error';
-export { default as Send } from './Send';
-export { default as Success } from './Success';
-export { default as Person } from './Person';
+export { default as Error } from './Error'
+export { default as Send } from './Send'
+export { default as Success } from './Success'
+export { default as Person } from './Person'
+export { default as ChevronUp } from './ChevronUp'
+export { default as ChevronDown } from './ChevronDown'
