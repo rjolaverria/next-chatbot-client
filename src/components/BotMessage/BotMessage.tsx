@@ -1,24 +1,28 @@
+import { useTypingEffect } from '@/hooks'
 import React from 'react'
-import MessageStatus from '../MessageStatus/MessageStatus'
 import Avatar from '../Avatar/Avatar'
+import MessageStatus from '../MessageStatus/MessageStatus'
 
 type Meta = {
     text?: string
     url: string
 }
 
-type BotMessageProps = React.PropsWithChildren<{
+type BotMessageProps = {
     status?: 'delivered' | 'error'
-    text?: string
+    text: string
     meta?: Meta[]
-}>
+    newMessage?: boolean
+}
 
 const BotMessage: React.FC<BotMessageProps> = ({
-    children,
     text,
     meta,
     status,
+    newMessage,
 }) => {
+    const displayText = useTypingEffect(text, newMessage ? 8 : 0)
+
     return (
         <li className="flex gap-x-2 sm:gap-x-4">
             <div className="w-full">
@@ -26,8 +30,8 @@ const BotMessage: React.FC<BotMessageProps> = ({
                     <Avatar type="bot" />
                 </div>
                 <div className="max-w-1xl w-full border border-stone-200 rounded-2xl space-y-3 dark:bg-slate-900 dark:border-stone-700">
-                    <div className="p-4">{text ?? children}</div>
-                    {meta && (
+                    <div className="p-4">{displayText}</div>
+                    {meta && displayText.length === text.length && (
                         <div className="flex items-center border-t border-stone-200 p-4 space-x-4">
                             {meta.map((item, index) => (
                                 <a

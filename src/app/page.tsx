@@ -19,6 +19,7 @@ export default function Home() {
                         <MessagesContainer>
                             <UserMessage text="What is a bot?" />
                             <BotMessage
+                                newMessage
                                 text='A bot, short for "robot," is an automated software program designed to perform specific tasks without human intervention. Bots can be programmed for a wide range of activities, from simple repetitive tasks, like auto-replying to messages or scraping web data, to more complex functions, such as artificial intelligence-based chatbots that can understand and respond to human language in a conversational manner. Bots are used in various fields, including customer service (as chatbots), on social media platforms (for tasks like automated posting or messaging), in online gaming (as non-player characters or for automated actions), and in many other digital environments.'
                                 meta={[
                                     {
