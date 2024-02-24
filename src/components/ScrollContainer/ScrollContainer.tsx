@@ -1,63 +1,28 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { IconButton } from '../IconButton'
 import { ChevronDown, ChevronUp } from '@/icons'
+import { AutoScroll } from '@/hooks/useAutoScroll'
 
 type ScrollContainerProps = {
     children: React.ReactNode
     className?: string
-}
+} & AutoScroll
 
 const ScrollContainer: React.FC<ScrollContainerProps> = ({
     children,
     className,
+    topRef,
+    bottomRef,
+    topInView,
+    bottomInView,
+    scrollToTop,
+    scrollToBottom,
 }) => {
-    const topRef = React.useRef<HTMLDivElement>(null)
-    const bottomRef = React.useRef<HTMLDivElement>(null)
-    const [topInView, setTopInView] = useState(false)
-    const [bottomInView, setBottomInView] = useState(false)
     const [mouseOver, setMouseOver] = useState(false)
-
-    const handleScrollToTop = () =>
-        topRef.current?.scrollIntoView({ behavior: 'smooth' })
-    const handleScrollToBottom = () =>
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     const handleMouseOver = () => setMouseOver(true)
     const handleMouseOut = () => setMouseOver(false)
-
-    const topObserver = useMemo(() => {
-        if (typeof window !== 'undefined' && window.IntersectionObserver) {
-            return new IntersectionObserver(([entry]) => {
-                setTopInView(entry.isIntersecting)
-            })
-        }
-    }, [])
-
-    const bottomObserver = useMemo(() => {
-        if (typeof window !== 'undefined' && window.IntersectionObserver) {
-            return new IntersectionObserver(([entry]) => {
-                setBottomInView(entry.isIntersecting)
-            })
-        }
-    }, [])
-
-    useEffect(() => {
-        if (
-            !topRef.current ||
-            !bottomRef.current ||
-            !topObserver ||
-            !bottomObserver
-        )
-            return
-        topObserver.observe(topRef.current)
-        bottomObserver.observe(bottomRef.current)
-
-        return () => {
-            topObserver.disconnect()
-            bottomObserver.disconnect()
-        }
-    }, [topObserver, bottomObserver])
 
     return (
         <div
@@ -67,19 +32,19 @@ const ScrollContainer: React.FC<ScrollContainerProps> = ({
         >
             {mouseOver && !bottomInView && (
                 <div className="absolute left-1/2 top-0 shadow-lg rounded-lg">
-                    <IconButton onClick={handleScrollToBottom}>
+                    <IconButton onClick={scrollToBottom}>
                         <ChevronDown />
                     </IconButton>
                 </div>
             )}
-            <div className="overflow-y-scroll h-full">
+            <div className="overflow-y-auto h-full">
                 <div ref={topRef} />
                 {children}
                 <div ref={bottomRef} />
             </div>
             {mouseOver && !topInView && (
                 <div className="absolute left-1/2 bottom-2 shadow-lg rounded-lg">
-                    <IconButton onClick={handleScrollToTop}>
+                    <IconButton onClick={scrollToTop}>
                         <ChevronUp />
                     </IconButton>
                 </div>

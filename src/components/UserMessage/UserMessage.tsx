@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { use, useEffect } from 'react'
 import MessageStatus from '../MessageStatus/MessageStatus'
 import Avatar from '../Avatar/Avatar'
 
@@ -17,7 +17,6 @@ const UserMessage: React.FC<UserMessageProps> = ({ text, status }) => {
                             {text}
                         </p>
                     </div>
-
                     <MessageStatus status={status} />
                 </div>
             </div>

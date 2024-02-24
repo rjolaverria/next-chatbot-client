@@ -1,1 +1,1 @@
-export { useTypewriterEffect } from './useTypewriterEffect'
+export { useTypingEffect } from './useTypingEffect'
